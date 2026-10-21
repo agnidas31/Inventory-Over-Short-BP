@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inventory Over &amp; Short · Agnivesh Das</title>
+<meta name="description" content="How store inventory audit results were turned from a pile of adjustments into a clear view of where stock was being lost, how fast, and which stores needed attention first.">
+<meta property="og:title" content="Inventory Over &amp; Short · Agnivesh Das">
+<meta property="og:description" content="How store inventory audit results were turned from a pile of adjustments into a clear view of where stock was being lost, how fast, and which stores needed attention first.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:wght@600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #17202b; --muted: #556070; --faint: #8a94a2; --rule: #dde3ea;
+    --bg: #ffffff; --bg-soft: #f4f7f9; --accent: #0e5a63; --accent-soft: #e8f2f3;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--ink);
+    font-family: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif; font-size: 17px; line-height: 1.7;
+  }
+  a { color: var(--accent); }
+  .top { border-bottom: 1px solid var(--rule); background: #fff; position: sticky; top: 0; z-index: 5; }
+  .top .wrap { display: flex; justify-content: space-between; align-items: center; height: 56px; gap: 12px; }
+  .top a { text-decoration: none; font-weight: 600; font-size: 14px; }
+  .brand { font-family: "Lora", Georgia, serif; font-size: 18px; color: var(--ink); }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 20px; }
+  .tabs { display: flex; gap: 8px; margin: 28px 0 0; flex-wrap: wrap; }
+  .tabs a { padding: 6px 14px; border-radius: 99px; border: 1px solid var(--rule); color: var(--muted); text-decoration: none; font-size: 14px; font-weight: 600; }
+  .tabs a.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  article { padding: 18px 0 60px; }
+  article > p:first-child { color: var(--accent); font-weight: 700; font-size: 13px; letter-spacing: 1.1px; text-transform: uppercase; margin-bottom: 0; }
+  h1 { font-family: "Lora", Georgia, serif; font-size: clamp(32px, 5vw, 46px); line-height: 1.12; margin: 8px 0 16px; }
+  h1 + p { font-size: 20px; color: var(--ink); }
+  h2 { font-family: "Lora", Georgia, serif; font-size: 28px; margin: 48px 0 6px; padding-top: 10px; }
+  h3 { font-size: 19px; margin: 10px 0 14px; color: var(--muted); font-weight: 600; }
+  h4 { font-size: 17px; margin: 22px 0 6px; }
+  p, li { color: #2b3542; }
+  hr { border: 0; border-top: 1px solid var(--rule); margin: 40px 0 8px; }
+  blockquote {
+    margin: 22px 0; padding: 14px 18px; background: var(--accent-soft); border-left: 4px solid var(--accent);
+    border-radius: 0 8px 8px 0;
+  }
+  blockquote p { margin: 6px 0; }
+  table { width: 100%; border-collapse: collapse; margin: 18px 0; font-size: 15px; display: block; overflow-x: auto; }
+  th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { background: var(--bg-soft); font-weight: 600; white-space: nowrap; }
+  code { font-family: ui-monospace, "SFMono-Regular", Menlo, monospace; font-size: 14px; background: var(--bg-soft); padding: 2px 5px; border-radius: 4px; }
+  pre { background: #0f1a22; color: #e6edf3; padding: 16px 18px; border-radius: 10px; overflow-x: auto; font-size: 14px; line-height: 1.55; }
+  pre code { background: none; padding: 0; color: inherit; }
+  .foot { border-top: 1px solid var(--rule); padding: 26px 0 40px; color: var(--faint); font-size: 14px; }
+  .foot .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+</style>
+</head>
+<body>
+<div class="top">
+  <div class="wrap">
+    <a class="brand" href="https://agnidas31.github.io/Agnivesh-Das/">Agnivesh Das</a>
+    <a href="https://agnidas31.github.io/Agnivesh-Das/#work">← All work</a>
+  </div>
+</div>
+<div class="wrap">
+  
+  <article><p>Case Study · US Convenience Retail · bp</p>
+<h1>Inventory Over &amp; Short</h1>
+<p>How store inventory audit results were turned from a pile of adjustments into a clear view of where stock was being lost, how fast, and which stores needed attention first.</p>
+<p>Agnivesh Das · Data Analyst · bp</p>
+<blockquote>
+<p><strong>Note:</strong> the structure and metrics reflect how the report worked. All stores, values and examples are illustrative, not real production figures.</p>
+</blockquote>
+<hr />
+<h2>My Role</h2>
+<p>As Data Analyst, I owned the data behind the report end to end:</p>
+<ul>
+<li><strong>Data preparation.</strong> Brought in inventory audit results, item and department hierarchies, store attributes and sales data across two convenience brands (Thorntons and ampm).</li>
+<li><strong>Cleaning and transformation.</strong> Standardised audit categories across brands, aligned audits to store and period, and built the loss-per-day logic that makes stores with different audit timing comparable.</li>
+<li><strong>Reporting.</strong> Built the Power BI report: monthly analysis, item-level inventory, department, category and account time series, outlier stores, latest audits, and loss per day.</li>
+</ul>
+<hr />
+<h2>The Problem</h2>
+<h3>Shrink was measured, but not managed</h3>
+<p>Every convenience store loses some stock to theft, damage, spoilage, receiving errors and admin mistakes. This is known as <strong>shrink</strong>.</p>
+<p>Periodic inventory audits count what's actually on the shelf and compare it with what the system says should be there. The difference is the <strong>over/short</strong>: a negative number means stock is missing.</p>
+<p>The audit results existed, but they arrived as thousands of adjustments by store and category. It was hard to answer:</p>
+<ul>
+<li>Which stores are losing the most?</li>
+<li>Is it getting better or worse?</li>
+<li>Is the loss concentrated in specific categories, such as tobacco, beer or fresh food?</li>
+<li>Which stores should loss-prevention teams visit first?</li>
+</ul>
+<hr />
+<h2>The Constraint Nobody Was Naming</h2>
+<h3>Audit totals weren't comparable between stores</h3>
+<p><strong>1. Audits happen at different intervals.</strong> One store is audited after 30 days, another after 90. A $3,000 loss over 90 days is a smaller problem than a $2,000 loss over 30 days, but the raw totals say the opposite.</p>
+<p><strong>2. Two brands, two ways of categorising.</strong> Thorntons and ampm used different category names and structures, so a cigarette loss in one brand didn't line up with the other.</p>
+<p><strong>3. Big stores lose more in dollars.</strong> A high-volume store will naturally have bigger adjustments. Ranking by raw dollars sends teams to the busiest stores, not necessarily the worst-run ones.</p>
+<hr />
+<h2>The Fix</h2>
+<h3>Normalise by time, standardise by category, rank by exception</h3>
+<ol>
+<li><strong>Loss per day.</strong> Every audit adjustment is divided by the number of days since the store's previous audit, so stores audited at different intervals become comparable.</li>
+<li><strong>A common category hierarchy.</strong> Audit categories (beer, candy, carbonated and packaged beverages, cigarettes, dispensed beverages, fresh food, grocery and more) were mapped across both brands into one department and category structure.</li>
+<li><strong>Outlier stores.</strong> Stores were ranked by monthly loss, so the stores furthest from normal stood out immediately.</li>
+<li><strong>Trend views.</strong> Department, category and account time series show whether a store's or category's loss is improving or getting worse.</li>
+</ol>
+<h3>How it works</h3>
+<ol>
+<li><strong>Ingest:</strong> Audit results, item master and hierarchy, store attributes (brand, region, director, status), and sales.</li>
+<li><strong>Standardise:</strong> Map both brands' audit categories into one hierarchy.</li>
+<li><strong>Align:</strong> Link each audit to the previous audit at the same store to get the audit period length.</li>
+<li><strong>Calculate:</strong> Over/short in $, loss per day, and loss as a share of sales.</li>
+<li><strong>Rank:</strong> Identify outlier stores by loss per day and by trend.</li>
+<li><strong>Report:</strong> Monthly analysis, item level, time series by department, category and account, outlier stores, latest audits, and loss per day.</li>
+</ol>
+<hr />
+<h2>Worked Example</h2>
+<h3>Why loss per day changes the ranking</h3>
+<blockquote>
+<p><strong>Illustrative values only.</strong></p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Store</th>
+<th>Audit adjustment</th>
+<th>Days since last audit</th>
+<th>Loss per day</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A</td>
+<td>−$3,000</td>
+<td>90</td>
+<td>−$33</td>
+</tr>
+<tr>
+<td>B</td>
+<td>−$2,000</td>
+<td>30</td>
+<td><strong>−$67</strong></td>
+</tr>
+<tr>
+<td>C</td>
+<td>−$1,200</td>
+<td>45</td>
+<td>−$27</td>
+</tr>
+</tbody>
+</table>
+<p>Ranked by raw adjustment, Store A looks worst. Ranked by loss per day, <strong>Store B is losing stock twice as fast</strong> and should be visited first.</p>
+<p>Drilling into Store B by category shows most of the loss is in cigarettes and beer. That points to a targeted response, such as tighter receiving checks or secure display, rather than a general store review.</p>
+<hr />
+<h2>Why This Beat The Old Approach</h2>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Before</th>
+<th>With the Over &amp; Short report</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>View of loss</td>
+<td>Raw audit adjustments</td>
+<td>Loss per day, comparable across stores</td>
+</tr>
+<tr>
+<td>Categories</td>
+<td>Different per brand</td>
+<td>One hierarchy across Thorntons and ampm</td>
+</tr>
+<tr>
+<td>Prioritisation</td>
+<td>Biggest dollar figure</td>
+<td>Outlier stores and worsening trends</td>
+</tr>
+<tr>
+<td>Root cause</td>
+<td>Store-level total only</td>
+<td>Drill-down to department, category and item</td>
+</tr>
+<tr>
+<td>Timing</td>
+<td>Whenever someone compiled the numbers</td>
+<td>Refreshed with every audit</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>Impact</h2>
+<p><strong>22% better inventory recovery:</strong> loss-prevention effort went where stock was actually being lost.</p>
+<p><strong>4× faster prioritization:</strong> the stores needing attention first surfaced in a fraction of the time.</p>
+<p><strong>2 brands, 1 view:</strong> Thorntons and ampm audit results in one consistent hierarchy.</p>
+<p><strong>Comparable stores:</strong> loss per day removed the distortion of different audit intervals.</p>
+<p><strong>Targeted action:</strong> outlier stores and problem categories surfaced immediately for loss-prevention teams.</p>
+<p>The bigger shift was moving from "here are this month's audit adjustments" to "here is where we are losing stock fastest, and in what."</p>
+<h2>---</h2>
+<h1>Technical Deep Dive: How the Report Is Built</h1>
+<h2>1. Source data</h2>
+<table>
+<thead>
+<tr>
+<th>Source</th>
+<th>Grain</th>
+<th>Used for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Inventory audit results</td>
+<td>Store × audit date × audit category</td>
+<td>Over/short $</td>
+</tr>
+<tr>
+<td>Item master &amp; hierarchy</td>
+<td>Item</td>
+<td>Department, category, account</td>
+</tr>
+<tr>
+<td>Store master</td>
+<td>Store</td>
+<td>Brand, region, director, open/closed status</td>
+</tr>
+<tr>
+<td>Sales</td>
+<td>Store × day × category</td>
+<td>Loss as a share of sales</td>
+</tr>
+</tbody>
+</table>
+<h2>2. Map categories across brands</h2>
+<p>A mapping table translates each brand's audit categories into one hierarchy:</p>
+<pre><code>brand      | source_category        | department      | category
+-----------+------------------------+-----------------+-------------------
+Thorntons  | Cigarettes Audit Adj   | Tobacco         | Cigarettes
+ampm       | CIGS                   | Tobacco         | Cigarettes
+Thorntons  | Beer Audit Adjust      | Alcohol         | Beer
+...
+</code></pre>
+<p>Unmapped categories are flagged rather than dropped, so nothing silently disappears.</p>
+<h2>3. Audit period length</h2>
+<pre><code class="language-sql">SELECT store_id,
+       audit_date,
+       category,
+       adjustment_usd,
+       DATEDIFF(day,
+                LAG(audit_date) OVER (PARTITION BY store_id ORDER BY audit_date),
+                audit_date)                                   AS days_in_period
+FROM   inventory_audits;
+</code></pre>
+<h2>4. Loss per day and share of sales</h2>
+<pre><code>loss_per_day   = adjustment_usd ÷ days_in_period
+loss_pct_sales = adjustment_usd ÷ sales_usd in the same period
+</code></pre>
+<h2>5. Outlier detection</h2>
+<p>Two simple, explainable rules:</p>
+<ul>
+<li><strong>Rank:</strong> stores ranked by monthly loss and by loss per day.</li>
+<li><strong>Peer comparison:</strong> flag stores whose loss per day is far above the average for similar stores, for example more than two standard deviations above their region's mean.</li>
+</ul>
+<p>Closed and non-operating stores are filtered out so they don't distort rankings.</p>
+<h2>6. Report pages (Power BI)</h2>
+<ol>
+<li>Monthly analysis</li>
+<li>Item-level inventory</li>
+<li>Department time series</li>
+<li>Category time series</li>
+<li>Account time series</li>
+<li>Outlier stores</li>
+<li>Latest store audits</li>
+<li>Inventory loss per day</li>
+<li>Loss per day by audit</li>
+</ol>
+<p>Filters: brand, director/region, store, department and audit category.</p>
+<hr />
+<p>Created by Agnivesh Das · bp US Convenience · Illustrative values throughout. Shrink = stock lost to theft, damage, spoilage or error.</p></article>
+</div>
+<div class="foot">
+  <div class="wrap">
+    <span>Agnivesh Das · <a href="https://agnidas31.github.io/Agnivesh-Das/">Portfolio</a> · <a href="https://www.linkedin.com/in/agnivesh-das/">LinkedIn</a></span>
+    <span>Illustrative figures; confidential details omitted.</span>
+  </div>
+</div>
+</body>
+</html>

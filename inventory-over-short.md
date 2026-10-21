@@ -4,7 +4,7 @@ Field-Tested Innovation · US Convenience Retail · bp
 
 How store inventory audit results were turned from a pile of adjustments into a clear view of where stock was being lost, how fast, and which stores needed attention first.
 
-Agnivesh Das · Senior Data Analytics Engineer · bp
+Agnivesh Das · Data Analyst · bp
 
 > **Note:** the structure and metrics reflect how the report worked. All stores, values and examples are illustrative, not real production figures.
 
@@ -12,7 +12,7 @@ Agnivesh Das · Senior Data Analytics Engineer · bp
 
 ## My Role
 
-As Senior Data Analytics Engineer, I owned the data behind the report end to end:
+As Data Analyst, I owned the data behind the report end to end:
 
 - **Data preparation.** Brought in inventory audit results, item and department hierarchies, store attributes and sales data across two convenience brands (Thorntons and ampm).
 - **Cleaning and transformation.** Standardised audit categories across brands, aligned audits to store and period, and built the loss-per-day logic that makes stores with different audit timing comparable.
@@ -100,6 +100,10 @@ Drilling into Store B by category shows most of the loss is in cigarettes and be
 ---
 
 ## Impact
+
+**22% better inventory recovery:** loss-prevention effort went where stock was actually being lost.
+
+**4× faster prioritization:** the stores needing attention first surfaced in a fraction of the time.
 
 **2 brands, 1 view:** Thorntons and ampm audit results in one consistent hierarchy.
 
